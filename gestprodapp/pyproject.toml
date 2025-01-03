@@ -1,0 +1,11 @@
+[project]
+name = "GestProdApp"
+version = "0.1.0"
+license = "MIT License"
+dependencies = [
+    "flet>=0.21.0",
+    "flet-easy>=0.2.0"
+    ]
+
+[[project.authors]]
+name = "GP"
