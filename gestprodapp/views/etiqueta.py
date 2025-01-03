@@ -1,6 +1,7 @@
 import flet as ft
 import flet_easy as fs
 from controllers.producto import bobina
+from controllers.imprimir import imprimir_y_guardar  # Import the new function
 from datetime import datetime
 
 # Agregar pagina de etiquetas
@@ -124,7 +125,7 @@ def etiqueta_page(data: fs.Datasy):
     calidad.value = data.share.get("calidadH")
 
     #Asignar valores iniciales o incrementales.
-    sec.value = 2
+    sec.value = 1
     #Asignar valor incremental al campo sec (secuencia)
 
 
@@ -187,7 +188,7 @@ def etiqueta_page(data: fs.Datasy):
             print(datos)
             # Llamada a la función con los campos ingresados
             funcion_procesar_datos(datos)
-            #llamada a metodo de producto.py
+            # llamada a metodo de producto.py
             nueva_bobina = bobina(ancho.value,
                 diametro.value,
                 gramaje.value,
@@ -198,8 +199,8 @@ def etiqueta_page(data: fs.Datasy):
                 fecha_str,
                 turno.value,
                 calidad.value)
-            #bobina.imprimir_log(nueva_bobina)
-            #bobina.guardar_bobina_en_excel(nueva_bobina)
+            # Llamada a la función para imprimir y guardar
+            imprimir_y_guardar(nueva_bobina)
             sec.value += 1
         page.update()
 
