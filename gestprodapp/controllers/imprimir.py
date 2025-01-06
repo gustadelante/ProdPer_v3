@@ -1,6 +1,7 @@
 import flet as ft
 import openpyxl
 import flet_easy as fs
+import os
 
 #@fs.page(route="/imprimir", title="Impresión", share_data=True)
 def imprimir_y_guardar(nueva_bobina):
@@ -34,7 +35,6 @@ def imprimir_y_guardar(nueva_bobina):
     # Enviar los datos a la impresora
     from reportlab.lib.pagesizes import A4
     from reportlab.pdfgen import canvas
-    import os
 
     c = canvas.Canvas("print_output.pdf", pagesize=A4)
     width, height = A4
@@ -69,8 +69,19 @@ def imprimir_y_guardar(nueva_bobina):
     os.system(f'start /min "" "print_output.pdf" /p')
 
     # Guardar los valores en un archivo Excel
-    workbook = openpyxl.Workbook()
-    sheet = workbook.active
+    file_path = "nueva_bobina.xlsx"
+    if os.path.exists(file_path):
+        workbook = openpyxl.load_workbook(file_path)
+        sheet = workbook.active
+    else:
+        workbook = openpyxl.Workbook()
+        sheet = workbook.active
+        # Agregar encabezados si es un nuevo archivo
+        sheet.append([
+            "Ancho", "Diámetro", "Gramaje", "Peso", "Bobina Nro", "Sec", 
+            "Orden de Fabricación", "Fecha", "Turno", "CodCal", "DescCal"
+        ])
+
     sheet.append([
         nueva_bobina.ancho,
         nueva_bobina.diametro,
@@ -84,4 +95,4 @@ def imprimir_y_guardar(nueva_bobina):
         nueva_bobina.calidad[:2],  # codcal
         nueva_bobina.calidad[3:],  # solo desc de cal
     ])
-    workbook.save("nueva_bobina.xlsx")
+    workbook.save(file_path)
