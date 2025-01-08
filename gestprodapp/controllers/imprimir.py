@@ -2,9 +2,11 @@ import flet as ft
 import openpyxl
 import flet_easy as fs
 import os
+from models.database import init_db, insert_bobina, update_bobina, bobina_exists, get_max_sec
 
-#@fs.page(route="/imprimir", title="Impresión", share_data=True)
 def imprimir_y_guardar(nueva_bobina):
+    init_db()
+    
     #Compartir nueva_bobina segun fs no como parametro.
 
     # Crear una página para la impresión
@@ -96,3 +98,12 @@ def imprimir_y_guardar(nueva_bobina):
         nueva_bobina.calidad[3:],  # solo desc de cal
     ])
     workbook.save(file_path)
+
+    # Check if bobina exists in the database and insert or update accordingly
+    if bobina_exists(nueva_bobina):
+        update_bobina(nueva_bobina)
+    else:
+        insert_bobina(nueva_bobina)
+
+    # Return bobina_nro for further processing
+    return nueva_bobina.bobina_nro

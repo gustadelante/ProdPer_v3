@@ -3,6 +3,7 @@ import flet_easy as fs
 from controllers.producto import bobina
 from controllers.imprimir import imprimir_y_guardar  # Import the new function
 from datetime import datetime
+from models.database import bobina_exists, get_max_sec
 
 # Agregar pagina de etiquetas
 """ @fs.page(route="/etiqueta", title="Emisión de Etiquetas", share_data=True) """
@@ -125,7 +126,7 @@ def etiqueta_page(data: fs.Datasy):
     calidad.value = data.share.get("calidadH")
 
     #Asignar valores iniciales o incrementales.
-    sec.value = 1
+    sec.value = 1    
     #Asignar valor incremental al campo sec (secuencia)
 
 
@@ -145,7 +146,23 @@ def etiqueta_page(data: fs.Datasy):
         campo.focus()
         page.update()
 
+    def set_sec_value(sec, bobina_nro):
+        try:
+            max_sec = get_max_sec(bobina_nro)
+            nuevo_sec = max_sec + 1
+            sec.value = str(nuevo_sec)
+            print(f"nuevo sec: {sec.value}")
+        except Exception as e:
+            print("No pudo incrementar el valor de la secuencia:", e)
+            sec.value = "1"
+        sec.update()
+
+    def handle_imprimir_y_guardar(nueva_bobina, sec):
+        bobina_nro = imprimir_y_guardar(nueva_bobina)
+        set_sec_value(sec, bobina_nro)
+
     def imprimir_datos(e):
+        old_sec = sec.value
         campo_incompleto = verificar_datos()
         if campo_incompleto:
             dialog = ft.AlertDialog(
@@ -200,8 +217,8 @@ def etiqueta_page(data: fs.Datasy):
                 turno.value,
                 calidad.value)
             # Llamada a la función para imprimir y guardar
-            imprimir_y_guardar(nueva_bobina)
-            sec.value += 1
+            handle_imprimir_y_guardar(nueva_bobina, sec)
+
         page.update()
 
     # Definición de la función para procesar los datos
