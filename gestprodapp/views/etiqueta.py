@@ -22,7 +22,7 @@ def etiqueta_page(data: fs.Datasy):
 
     page.bgcolor = ft.colors.BLUE_GREY_800
     page.theme_mode = "light"
-    page.vertical_alignment = ft.MainAxisAlignment.START
+    page.vertical_alignment = ft.MainAxisAlignment.CENTER
     page.horizontal_alignment = ft.MainAxisAlignment.CENTER
     page.window_resizable = True        
 
