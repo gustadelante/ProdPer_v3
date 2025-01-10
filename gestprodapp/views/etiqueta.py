@@ -12,7 +12,7 @@ def etiqueta_page(data: fs.Datasy):
     page = data.page
     view = data.view
     
-      
+    #Variables que llegan del formulario anterior  
     if data.share.contains():
         x: str = data.share.get("turnoH")
         y: str = data.share.get("calidadH")
@@ -24,11 +24,12 @@ def etiqueta_page(data: fs.Datasy):
     page.theme_mode = "light"
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
     page.horizontal_alignment = ft.MainAxisAlignment.CENTER
-    page.window_resizable = True        
+    page.window_resizable = True
+    page.window.center()        
 
      # Ajuste del tamaño de la ventana
-    page.window_width = 900
-    page.window_height = 800
+    page.window_width = 800 #900
+    page.window_height = 750 #800
 
     # Colores para modo claro y oscuro con verde oscuro predominante
     light_primary_color = ft.colors.GREEN
@@ -243,9 +244,9 @@ def etiqueta_page(data: fs.Datasy):
 
     responsive_grid = ft.GridView(
         expand=True,
-        max_extent=450,
-        padding=10,
-        child_aspect_ratio=4,        
+        max_extent=400,
+        #padding=10,
+        child_aspect_ratio=3.6,        
         controls=[            
             ft.Container(content=ancho, alignment=ft.alignment.center),
             ft.Container(content=diametro, alignment=ft.alignment.center),
@@ -298,55 +299,3 @@ def etiqueta_page(data: fs.Datasy):
             ]
 
     )
-    """ controls=[
-        titulo,
-        ft.Divider(height=9, thickness=3, color="green"),
-        ft.Card(                            
-        ft.Container(
-            content=ft.Column([
-                responsive_grid
-            ]),
-            padding=20,
-            border_radius=10,                
-            bgcolor=ft.colors.GREEN_300,
-            alignment=ft.alignment.center,
-                                    
-        ),        
-    )],
-    bgcolor=ft.colors.BLUE_GREY_100                    """
-
-
-    
-
-""" 
-    return ft.View(
-        controls=[
-            ft.Text("Counter page", size=30),
-            ft.Row(
-                [
-                    ft.IconButton(ft.icons.REMOVE, on_click=minus_click),
-                    txt_number,
-                    ft.IconButton(ft.icons.ADD, on_click=plus_click),
-                ],
-                alignment="center",
-            ),
-        ],
-        vertical_alignment="center",
-        horizontal_alignment="center",
-        appbar=view.appbar,
-    ) """
-
-
-
-
-"""     
-    txt_number = ft.TextField(value=id, text_align="right", width=100)
-
-    def minus_click(e):
-        txt_number.value = str(int(txt_number.value) - 1)
-        page.update()
-
-    def plus_click(e):
-        txt_number.value = str(int(txt_number.value) + 1)
-        page.update()
-"""
